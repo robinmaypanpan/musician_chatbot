@@ -1,0 +1,28 @@
+{
+  "name": "musician_chatbot",
+  "version": "0.0.1",
+  "description": "Telegram bot for handling daily/weekly music charts",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/forever start src/main.js",
+    "stop": "./node_modules/.bin/forever stopall",
+    "dev": "./node_modules/.bin/forever stopall && node src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joycem137/musician_chatbot.git"
+  },
+  "author": "Joyce Mayorga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joycem137/musician_chatbot/issues"
+  },
+  "homepage": "https://github.com/joycem137/musician_chatbot#readme",
+  "dependencies": {
+    "forever": "^0.15.3",
+    "jsPolyfills": "git://github.com/joycem137/jsPolyfills.git",
+    "prompt-sync": "^4.1.5",
+    "readline-sync": "^1.4.7",
+    "telegram-node-bot": "^4.0.5"
+  }
+}
