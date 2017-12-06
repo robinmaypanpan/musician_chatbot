@@ -1,5 +1,5 @@
 /**
- * Initializes the bot
+ * Handles links to SoundCloud
  */
 "use strict";
 
@@ -8,26 +8,22 @@ const {TelegramBaseController, RegexpCommand} = Telegram;
 const CustomFilterCommand = require('telegram-node-bot/lib/routing/commands/CustomFilterCommand');
 
 const commands = [
-    new CustomFilterCommand($ => {
-        const {voice, audio} = $.message;
-        return !!(voice || audio);
-    })
+    new RegexpCommand(/soundcloud\.com/, 'handle')
 ];
 
-class MediaController extends TelegramBaseController {
+class SoundCloudController extends TelegramBaseController {
     handle($) {
         $.sendMessage('I can see your audio!');
     }
 }
 
 module.exports = {
-    controller: MediaController,
+    controller: SoundCloudController,
     commands,
     help: {
         heading: 'Music',
         lines: [
-            'Post Voice - Records voice message',
-            'Post Audio - Records audio'
+            'Post Sound Cloud link - Records sound cloud link',
         ]
     }
 };

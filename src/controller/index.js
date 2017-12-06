@@ -4,7 +4,10 @@
 "use strict";
 const consolidatedModules = [
     require('./StartController'),
-    require('./MediaController')
+    require('./MediaController'),
+    require('./CloudAppController'),
+    require('./ClypController'),
+    require('./SoundCloudController')
 ];
 
 const HelpController = require('./HelpController')(consolidatedModules);
@@ -24,9 +27,9 @@ function startResponseControllers(tg) {
     });
 
     router.when([
-        new RegexpCommand(/\/help*/, 'handle'),
-        new RegexpCommand(/\/h*/, 'handle'),
-        new RegexpCommand(/\/\?*/, 'handle')
+        new RegexpCommand(/\/help/, 'handle'),
+        new RegexpCommand(/\/h/, 'handle'),
+        new RegexpCommand(/\/\?/, 'handle')
     ], new HelpController());
 }
 
