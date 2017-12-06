@@ -3,12 +3,13 @@
  */
 "use strict";
 const consolidatedModules = [
-    require('./StartController')
+    require('./StartController'),
+    require('./MediaController')
 ];
 
 const HelpController = require('./HelpController')(consolidatedModules);
 
-const {TextCommand} = require('telegram-node-bot');
+const {RegexpCommand} = require('telegram-node-bot');
 
 function startResponseControllers(tg) {
     let router = tg.router;
@@ -23,9 +24,9 @@ function startResponseControllers(tg) {
     });
 
     router.when([
-        new TextCommand('/help'),
-        new TextCommand('/h'),
-        new TextCommand('/?')
+        new RegexpCommand(/\/help*/, 'handle'),
+        new RegexpCommand(/\/h*/, 'handle'),
+        new RegexpCommand(/\/\?*/, 'handle')
     ], new HelpController());
 }
 

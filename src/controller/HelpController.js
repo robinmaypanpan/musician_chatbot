@@ -49,16 +49,16 @@ function createHelpController(modules) {
 
     class HelpController extends TelegramBaseController {
         handle($) {
-            if (typeof $.query === 'string') {
-                const queryString = $.query.trim().toLowerCase();
-                const heading = messageBlockKeys.find((heading) => {
-                    return heading.toLowerCase() === queryString;
-                });
-                if (heading) {
-                    $.sendMessage(sendTopicMessage(heading));
-                } else {
-                    $.sendMessage(defaultHelpMessage);
-                }
+            const message = $.message.text;
+            const messageBlock = message.split(' ');
+            messageBlock.shift();
+            const queryString = messageBlock.join(' ').trim().toLowerCase();
+            console.log('My query string is ' + queryString);
+            const heading = messageBlockKeys.find((heading) => {
+                return heading.toLowerCase() === queryString;
+            });
+            if (heading) {
+                $.sendMessage(sendTopicMessage(heading));
             } else {
                 $.sendMessage(defaultHelpMessage);
             }
