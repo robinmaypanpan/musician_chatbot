@@ -13,13 +13,19 @@ const commands = [
     new TextCommand('/weekly', 'weeklyHandler')
 ];
 
+function postTracks($, tracks, timePhrase) {
+    $.sendMessage("Check out these phat tRaX y'all have posted "+timePhrase+"!");
+    tracks.forEach((trackMessage) => {
+        $.forwardMessage(trackMessage.chatId, trackMessage.messageId);
+    });
+}
+
 class ChartController extends TelegramBaseController {
     daily($) {
 
         return getDailyChart($.message.chat.id)
-            .then((chart) => {
-                $.sendMessage("Check out these phat tRaX y'all have posted in the last day!");
-                $.sendMessage("Oh shit, this stuff is lit." + chart);
+            .then((tracks) => {
+                postTracks($, tracks, 'in the last day')
             })
             .catch((error) => {
                 $.sendMessage("Uh... Actually, something fucked up. Sorry.");
@@ -28,9 +34,8 @@ class ChartController extends TelegramBaseController {
 
     weekly($) {
         return getWeeklyChart($.message.chat.id)
-            .then((chart) => {
-                $.sendMessage("Check out these phat tRaX y'all have posted this week!");
-                $.sendMessage("Oh shit, this stuff is lit." + chart);
+            .then((tracks) => {
+                postTracks($, tracks, 'this past week');
             })
             .catch((error) => {
                 $.sendMessage("Uh... Actually, something fucked up. Sorry.");
