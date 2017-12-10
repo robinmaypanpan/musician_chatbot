@@ -6,7 +6,8 @@
   "scripts": {
     "start": "./node_modules/.bin/forever start src/main.js",
     "stop": "./node_modules/.bin/forever stopall",
-    "dev": "./node_modules/.bin/forever stopall && node src/main.js"
+    "dev": "./node_modules/.bin/forever stopall && node src/main.js",
+    "debug": "./node_modules/.bin/forever stopall && node --inspect src/main.js"
   },
   "repository": {
     "type": "git",

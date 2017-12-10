@@ -1,53 +1,40 @@
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/musicianbotdb";
 
-function connectToDB() {
-    return new Promise((resolve, reject) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) reject(err);
-            console.log("Database created!");
-            resolve(db);
-        });
-
-    });
+function chooseDb(client) {
+    return Promise.resolve({client, db: client.db('musicianbotdb')});
 }
 
 function writeMediaMessage(message) {
     const {
-        chatId,
-        messageId,
+        chat: {id: chatId},
+        from: {id: userId},
+        messageId: messageId,
         date,
-        userId
     } = message;
     const messageObjectToWrite = {
+        id: chatId + '-' + messageId,
         chatId,
         messageId,
         userId,
         date
     };
-    return function(db) {
-        return new Promise((resolve, reject) => {
-            var messagesCollection = db.collection('messages');
-            messagesCollection.insertOne(messageObjectToWrite, function(err, result) {
-                if (err) reject(err);
-                console.log('Message ' + messageObjectToWrite + ' written');
-                console.log('Result was ' + json.stringify(result));
-                resolve();
+    return function doTheThing({client, db}) {
+        const messagesCollection = db.collection('messages');
+        return messagesCollection.insertOne(messageObjectToWrite)
+            .then((result) => {
+                console.log('Result was ' + JSON.stringify(result));
+                client.close();
             });
-        });
     }
-}
-
-function closeDB(db, data) {
-    db.close();
-    return Promise.resolve(data);
 }
 
 module.exports = {
     addMediaMessage(message) {
-        return connectToDB()
-            .then(writeMediaMessage(message))
-            .then(closeDB);
+        return MongoClient
+            .connect(url)
+            .then(chooseDb)
+            .then(writeMediaMessage(message));
     },
 
     getWeeklyChart() {

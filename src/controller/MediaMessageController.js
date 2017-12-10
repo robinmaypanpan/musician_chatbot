@@ -7,6 +7,8 @@ const Telegram = require('telegram-node-bot');
 const {TelegramBaseController, RegexpCommand} = Telegram;
 const CustomFilterCommand = require('telegram-node-bot/lib/routing/commands/CustomFilterCommand');
 
+const {addMediaMessage} = require('../api/database');
+
 const commands = [
     new CustomFilterCommand($ => {
         const {voice, audio} = $.message;
@@ -19,7 +21,14 @@ const commands = [
 
 class MediaController extends TelegramBaseController {
     handle($) {
-        $.sendMessage('I can see your audio!');
+        addMediaMessage($.message)
+            .then(() => {
+                $.sendMessage('Hey, cool track. I\'ll remember it for you.');
+            })
+            .catch((error) => {
+                console.error(error);
+                $.sendMessage('Help! Help! Something broke!');
+            });
     }
 }
 
