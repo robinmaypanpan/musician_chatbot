@@ -4,7 +4,8 @@
 "use strict";
 const consolidatedModules = [
     require('./StartController'),
-    require('./MediaMessageController')
+    require('./MediaMessageController'),
+    require('./ChartController')
 ];
 
 const HelpController = require('./HelpController')(consolidatedModules);
@@ -28,6 +29,9 @@ function startResponseControllers(tg) {
         new RegexpCommand(/\/h/, 'handle'),
         new RegexpCommand(/\/\?/, 'handle')
     ], new HelpController());
+
+    const OtherwiseController = require('./OtherwiseController');
+    router.otherwise(new OtherwiseController())
 }
 
 module.exports = startResponseControllers;
