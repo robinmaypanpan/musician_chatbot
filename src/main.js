@@ -6,18 +6,24 @@
 // Pull in my personal polyfills.
 require('jsPolyfills');
 
-const configModule = require('./util/config.js');
+const {BOT_KEY, NODE_ENV, PORT, WEBHOOK_URL} = process.env;
+const Telegram = require('telegram-node-bot');
 
-configModule.initConfig(function(config){
-    config = configModule.requireConfigKey('bot_key', 'Please enter a telegram bot key: ');
+let tg;
+if (NODE_ENV === 'production') {
+    tg = new Telegram.Telegram(BOT_KEY, {
+        webhook: {
+            url: WEBHOOK_URL,
+            port: PORT || 3000,
+            host: 'localhost'
+        }
+    });
+} else {
+    tg = new Telegram.Telegram(BOT_KEY);
+}
 
-    const Telegram = require('telegram-node-bot');
-    const tg = new Telegram.Telegram(config.bot_key);
+// Add in the controllers to the telegram bot
+require('./controller')(tg);
 
-    require('./controller')(tg);
-
-    console.log(config.bot_name + ' is up and running.');
-}, function(error) {
-    console.log('Something went wrong.', error);
-});
+console.log('Bot is up and running.');
 

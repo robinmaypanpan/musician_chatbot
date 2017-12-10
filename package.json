@@ -1,13 +1,15 @@
 {
   "name": "musician_chatbot",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Telegram bot for handling daily/weekly music charts",
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/forever start src/main.js",
     "stop": "./node_modules/.bin/forever stopall",
-    "dev": "./node_modules/.bin/forever stopall && node src/main.js",
-    "debug": "./node_modules/.bin/forever stopall && node --inspect src/main.js"
+    "db": "mongod --dbpath=./data",
+    "set_env": "export $(cat .env | xargs)",
+    "dev": "export $(cat .env | xargs) && ./node_modules/.bin/forever stopall && node src/main.js",
+    "debug": "export $(cat .env | xargs) & ./node_modules/.bin/forever stopall && node --inspect src/main.js"
   },
   "repository": {
     "type": "git",

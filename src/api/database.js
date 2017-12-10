@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/musicianbotdb";
+const url = process.env.DATABASE_URL;
 
 const ONE_DAY = 24 * 60 * 60;
 const ONE_WEEK = 7 * ONE_DAY;

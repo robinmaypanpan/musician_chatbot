@@ -12,7 +12,7 @@ const commands = [
 
 class StartController extends TelegramBaseController {
     handle($) {
-        $.sendMessage('Hello World');
+        $.sendMessage('Oh, hi Mark.');
     }
 }
 
