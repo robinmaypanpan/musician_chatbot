@@ -4,7 +4,7 @@
   "description": "Telegram bot for handling daily/weekly music charts",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/forever start src/main.js",
+    "start": "node src/main.js",
     "stop": "./node_modules/.bin/forever stopall",
     "db": "mongod --dbpath=./data",
     "set_env": "export $(cat .env | xargs)",
