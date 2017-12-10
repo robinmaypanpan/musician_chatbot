@@ -1,15 +1,15 @@
 var MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGODB_URI;
+const {MONGODB_URI, MONGODB_DB} = process.env;
 
 const ONE_DAY = 24 * 60 * 60;
 const ONE_WEEK = 7 * ONE_DAY;
 
 function chooseDb(client) {
-    return Promise.resolve({client, db: client.db('musicianbotdb')});
+    return Promise.resolve({client, db: client.db(MONGODB_DB)});
 }
 
 function connectDb() {
-    return MongoClient.connect(url)
+    return MongoClient.connect(MONGODB_URI)
         .then(chooseDb)
 }
 
