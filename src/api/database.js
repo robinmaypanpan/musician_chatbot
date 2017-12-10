@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-const url = process.env.DATABASE_URL;
+const url = process.env.MONGODB_URI;
 
 const ONE_DAY = 24 * 60 * 60;
 const ONE_WEEK = 7 * ONE_DAY;
