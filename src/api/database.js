@@ -16,16 +16,18 @@ function connectDb() {
 function writeMediaMessage(message) {
     const {
         chat: {id: chatId},
-        from: {id: userId},
+        from: {id: userId, username},
         messageId: messageId,
-        date,
+        date
     } = message;
     const messageObjectToWrite = {
         id: chatId + '-' + messageId,
+        username,
         chatId,
         messageId,
         userId,
-        date
+        date,
+        rawMessage: message
     };
     return function doTheThing({client, db}) {
         const messagesCollection = db.collection('messages');
