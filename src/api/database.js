@@ -33,7 +33,6 @@ function writeMediaMessage(message) {
         const messagesCollection = db.collection('messages');
         return messagesCollection.insertOne(messageObjectToWrite)
             .then((result) => {
-                console.log('Result was ' + JSON.stringify(result));
                 client.close();
             });
     }
