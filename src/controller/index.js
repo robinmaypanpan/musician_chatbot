@@ -4,10 +4,7 @@
 "use strict";
 const consolidatedModules = [
     require('./StartController'),
-    require('./MediaController'),
-    require('./CloudAppController'),
-    require('./ClypController'),
-    require('./SoundCloudController')
+    require('./MediaMessageController')
 ];
 
 const HelpController = require('./HelpController')(consolidatedModules);
