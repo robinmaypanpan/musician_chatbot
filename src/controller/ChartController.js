@@ -18,17 +18,21 @@ function generatePhrase(user) {
 }
 
 function postTracks($, tracks, timePhrase) {
-    $.sendMessage("Check out these phat tRaX y'all have posted "+timePhrase+"!");
-    tracks.forEach((trackMessage) => {
-        const optionalArgs = {
-            chat_id: trackMessage.chatId,
-            reply_to_message_id: trackMessage.messageId,
-            disable_notification: true
-        };
-        const user = trackMessage.username ? '@' + trackMessage.username : 'y\'all';
-        const phrase = generatePhrase(user);
-        $.sendMessage(phrase, optionalArgs );
-    });
+    if (tracks && tracks.length > 0) {
+        $.sendMessage("Check out these phat tRaX y'all have posted "+timePhrase+"!");
+        tracks.forEach((trackMessage) => {
+            const optionalArgs = {
+                chat_id: trackMessage.chatId,
+                reply_to_message_id: trackMessage.messageId,
+                disable_notification: true
+            };
+            const user = trackMessage.username ? '@' + trackMessage.username : 'y\'all';
+            const phrase = generatePhrase(user);
+            $.sendMessage(phrase, optionalArgs);
+        });
+    } else {
+        $.sendMessage("*crickets* Sorry, there was nothing to post. Get to work!");
+    }
 }
 
 class ChartController extends TelegramBaseController {
