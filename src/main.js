@@ -13,9 +13,9 @@ let tg;
 if (NODE_ENV === 'production') {
     tg = new Telegram.Telegram(BOT_KEY, {
         webhook: {
-            url: WEBHOOK_URL + BOT_KEY,
-            port: PORT || 80,
-            host: 'localhost'
+            url: WEBHOOK_URL,
+            port: PORT,
+            host: "0.0.0.0"
         }
     });
 } else {
