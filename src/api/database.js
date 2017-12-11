@@ -27,7 +27,7 @@ function writeMediaMessage(message) {
         messageId,
         userId,
         date,
-        rawMessage: message
+        rawMessage: JSON.stringify(message)
     };
     return function doTheThing({client, db}) {
         const messagesCollection = db.collection('messages');
