@@ -23,7 +23,11 @@ class MediaController extends TelegramBaseController {
     handle($) {
         addMediaMessage($.message)
             .then(() => {
-                $.sendMessage('Hey, cool track. I\'ll remember it for you.');
+                const optionalArgs = {
+                    reply_to_message_id: $.message.messageId,
+                    disable_notification: true
+                };
+                $.sendMessage('Hey, cool track. I\'ll remember it for you.', optionalArgs);
             })
             .catch((error) => {
                 console.error(error);
