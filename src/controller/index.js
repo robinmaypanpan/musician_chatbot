@@ -5,7 +5,8 @@
 const consolidatedModules = [
     require('./StartController'),
     require('./MediaMessageController'),
-    require('./ChartController')
+    require('./ChartController'),
+    require('./ConfigController')
 ];
 
 const HelpController = require('./HelpController')(consolidatedModules);
@@ -25,9 +26,7 @@ function startResponseControllers(tg) {
     });
 
     router.when([
-        new RegexpCommand(/\/help/, 'handle'),
-        new RegexpCommand(/\/h/, 'handle'),
-        new RegexpCommand(/\/\?/, 'handle')
+        new RegexpCommand(/^\/help/, 'handle'),
     ], new HelpController());
 
     const OtherwiseController = require('./OtherwiseController');

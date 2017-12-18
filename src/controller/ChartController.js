@@ -4,13 +4,13 @@
 "use strict";
 
 const Telegram = require('telegram-node-bot');
-const {TelegramBaseController, TextCommand} = Telegram;
+const {TelegramBaseController, RegexpCommand} = Telegram;
 
 const {getDailyChart, getWeeklyChart} = require('../api/database');
 
 const commands = [
-    new TextCommand('/daily', 'dailyHandler'),
-    new TextCommand('/weekly', 'weeklyHandler')
+    new RegexpCommand(/^\/daily/, 'dailyHandler'),
+    new RegexpCommand(/^\/weekly/, 'weeklyHandler')
 ];
 
 function generatePhrase(user) {
