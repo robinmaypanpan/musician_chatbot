@@ -25,9 +25,7 @@ function startResponseControllers(tg) {
     });
 
     router.when([
-        new RegexpCommand(/\/help/, 'handle'),
-        new RegexpCommand(/\/h/, 'handle'),
-        new RegexpCommand(/\/\?/, 'handle')
+        new RegexpCommand(/^\/help/, 'handle'),
     ], new HelpController());
 
     const OtherwiseController = require('./OtherwiseController');
