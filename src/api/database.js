@@ -4,6 +4,10 @@ const {MONGODB_URI, MONGODB_DB} = process.env;
 const ONE_DAY = 24 * 60 * 60;
 const ONE_WEEK = 7 * ONE_DAY;
 
+const CONFIG_VALUES = [
+    'acknowledgement'
+];
+
 function chooseDb(client) {
     return Promise.resolve({client, db: client.db(MONGODB_DB)});
 }
@@ -75,6 +79,23 @@ function retrieveConfigValue(chatId, key) {
     }
 }
 
+function retrieveAllConfigValues(chatId, key) {
+    const query = {
+        chatId
+    };
+    return function doTheThing({client, db}) {
+        const configCollection = db.collection('config');
+        return configCollection
+            .find(query)
+            .toArray()
+            .then((entries) => {
+                client.close();
+                console.log('Got ' + JSON.stringify(entries) + ' for ' + key);
+                return entries;
+            });
+    }
+}
+
 function writeConfigValue(chatId, key, value) {
     const query = {
         chatId,
@@ -91,19 +112,28 @@ function writeConfigValue(chatId, key, value) {
         upsert: true
     };
 
-    return function doTheThing({client, db}) {
-        const configCollection = db.collection('config');
-        return configCollection
-            .replaceOne(query, replacement, options)
-            .then((result) => {
-                client.close();
-                console.log('Set config ' + key + ' to ' + value + ' with result ' + JSON.stringify(result));
-                return result;
-            });
+    if (CONFIG_VALUES.indexOf(key) < 0) {
+        return Promise.reject(new Error("Not a valid key"));
+    } else {
+        return function doTheThing({client, db}) {
+            const configCollection = db.collection('config');
+            return configCollection
+                .replaceOne(query, replacement, options)
+                .then((result) => {
+                    client.close();
+                    console.log('Set config ' + key + ' to ' + value + ' with result ' + JSON.stringify(result));
+                    return result;
+                });
+        }
     }
 }
 
 module.exports = {
+    getAllConfigValues(chatId) {
+        return connectDb()
+            .then(retrieveAllConfigValues(chatId));
+    },
+
     getConfigValue(chatId, key) {
         return connectDb()
             .then(retrieveConfigValue(chatId, key));
