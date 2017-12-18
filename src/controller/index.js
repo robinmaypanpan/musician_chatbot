@@ -5,7 +5,8 @@
 const consolidatedModules = [
     require('./StartController'),
     require('./MediaMessageController'),
-    require('./ChartController')
+    require('./ChartController'),
+    require('./ConfigController')
 ];
 
 const HelpController = require('./HelpController')(consolidatedModules);

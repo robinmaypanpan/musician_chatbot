@@ -58,9 +58,62 @@ function queryForMessagesWithin(chatId, time) {
     }
 }
 
+function retrieveConfigValue(chatId, key) {
+    const query = {
+        chatId,
+        key
+    };
+    return function doTheThing({client, db}) {
+        const configCollection = db.collection('config');
+        return configCollection
+            .findOne(query)
+            .then((entry) => {
+                client.close();
+                console.log('Got ' + JSON.stringify(entry) + ' for ' + key);
+                return entry.value;
+            });
+    }
+}
 
+function writeConfigValue(chatId, key, value) {
+    const query = {
+        chatId,
+        key
+    };
+
+    const replacement = {
+        chatId,
+        key,
+        value
+    };
+
+    const options = {
+        upsert: true
+    };
+
+    return function doTheThing({client, db}) {
+        const configCollection = db.collection('config');
+        return configCollection
+            .replaceOne(query, replacement, options)
+            .then((result) => {
+                client.close();
+                console.log('Set config ' + key + ' to ' + value + ' with result ' + JSON.stringify(result));
+                return result;
+            });
+    }
+}
 
 module.exports = {
+    getConfigValue(chatId, key) {
+        return connectDb()
+            .then(retrieveConfigValue(chatId, key));
+    },
+
+    setConfigValue(chatId, key, value) {
+        return connectDb()
+            .then(writeConfigValue(chatId, key, value));
+    },
+
     addMediaMessage(message) {
         return connectDb()
             .then(writeMediaMessage(message));
