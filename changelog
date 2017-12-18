@@ -1,0 +1,14 @@
+1.0
+    - Initial release
+
+1.1.0
+    - Disable notifications for chart posts
+    - Don't break when there are no tracks to send back.
+
+1.1.1
+    - Store raw messages into the database in string format.
+
+1.2.0
+    - Stop responding to messages mid sentence.
+    - Stop responding to /? and /h
+    - Add ability to turn acknowledgement on and off

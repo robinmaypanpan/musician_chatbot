@@ -7,7 +7,7 @@ const Telegram = require('telegram-node-bot');
 const {TelegramBaseController, RegexpCommand} = Telegram;
 const CustomFilterCommand = require('telegram-node-bot/lib/routing/commands/CustomFilterCommand');
 
-const {addMediaMessage} = require('../api/database');
+const {addMediaMessage, getConfigValue} = require('../api/database');
 
 const commands = [
     new CustomFilterCommand($ => {
@@ -21,13 +21,19 @@ const commands = [
 
 class MediaController extends TelegramBaseController {
     handle($) {
-        addMediaMessage($.message)
-            .then(() => {
-                const optionalArgs = {
-                    reply_to_message_id: $.message.messageId,
-                    disable_notification: true
-                };
-                $.sendMessage('Hey, cool track. I\'ll remember it for you.', optionalArgs);
+        const chatId = $.message.chat.id;
+        getConfigValue(chatId, 'acknowledgement')
+            .then((sendAcknowledgement) => {
+                addMediaMessage($.message)
+                    .then(() => {
+                        if (sendAcknowledgement === 'on') {
+                            const optionalArgs = {
+                                reply_to_message_id: $.message.messageId,
+                                disable_notification: true
+                            };
+                            $.sendMessage('Hey, cool track. I\'ll remember it for you.', optionalArgs);
+                        }
+                    })
             })
             .catch((error) => {
                 console.error(error);
