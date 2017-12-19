@@ -12,3 +12,7 @@
     - Stop responding to messages mid sentence.
     - Stop responding to /? and /h
     - Add ability to turn acknowledgement on and off
+
+1.3.0
+    - Added support for videos and files as media messages
+    - Added full readme
