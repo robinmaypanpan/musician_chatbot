@@ -24,6 +24,7 @@ if (NODE_ENV === 'production') {
 
 // Add in the controllers to the telegram bot
 require('./controller')(tg);
+require('./periodic')(tg);
 
 console.log('Bot is up and running.');
 
