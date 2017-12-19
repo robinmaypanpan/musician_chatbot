@@ -11,12 +11,12 @@ const {addMediaMessage, getConfigValue} = require('../api/database');
 
 const commands = [
     new CustomFilterCommand($ => {
-        const {voice, audio} = $.message;
-        return !!(voice || audio);
+        const {voice, audio, video, document} = $.message;
+        return !!(voice || audio || video || document);
     }),
     new RegexpCommand(/clyp\.it/, 'handle'), // ClypIt
     new RegexpCommand(/cl\.ly/, 'handle'), // CloudApp
-    new RegexpCommand(/soundcloud\.com/, 'handle') // Sound Clound
+    new RegexpCommand(/soundcloud\.com/, 'handle') // Sound Cloud
 ];
 
 class MediaController extends TelegramBaseController {
